@@ -26,8 +26,8 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
-  phone: z.string().regex(/^(\+91)?[6-9]\d{9}$/, {
-    message: "Please enter a valid Indian phone number.",
+  phone: z.string().regex(/^[6-9]\d{9}$/, {
+    message: "Please enter a valid 10-digit phone number.",
   }),
   agent: z.string({
     required_error: "Please select an agent.",
@@ -81,19 +81,19 @@ export function BookingForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 space-y-6">
-      <div className="text-center space-y-2">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-          <Phone className="w-8 h-8 text-primary" />
+    <div className="w-full max-w-md mx-auto p-8 space-y-8">
+      <div className="text-center space-y-3">
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-primary mb-4 shadow-elegant">
+          <Phone className="w-10 h-10 text-primary-foreground" />
         </div>
-        <h1 className="text-3xl font-bold tracking-tight">Book a Call</h1>
+        <h1 className="text-3xl font-bold tracking-tight">AI Voice Calling</h1>
         <p className="text-muted-foreground">
-          Schedule a consultation with our professional agents
+          Experience intelligent voice conversations powered by AI
         </p>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <FormField
             control={form.control}
             name="name"
@@ -119,11 +119,18 @@ export function BookingForm() {
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="+91 XXXXX XXXXX"
-                    {...field}
-                    disabled={isLoading}
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
+                      +91
+                    </span>
+                    <Input
+                      placeholder="98765 43210"
+                      className="pl-12"
+                      maxLength={10}
+                      {...field}
+                      disabled={isLoading}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -161,7 +168,7 @@ export function BookingForm() {
 
           <Button
             type="submit"
-            className="w-full h-12 text-base font-semibold"
+            className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all"
             disabled={isLoading}
           >
             {isLoading ? (
